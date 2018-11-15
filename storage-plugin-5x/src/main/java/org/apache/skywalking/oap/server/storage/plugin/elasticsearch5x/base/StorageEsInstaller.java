@@ -22,8 +22,8 @@ import java.io.IOException;
 import org.apache.skywalking.oap.server.core.storage.StorageException;
 import org.apache.skywalking.oap.server.core.storage.model.*;
 import org.apache.skywalking.oap.server.library.client.Client;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.oap.server.library.module.ModuleManager;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.*;
 import org.slf4j.*;
@@ -47,7 +47,7 @@ public class StorageEsInstaller extends ModelInstaller {
     }
 
     @Override protected boolean isExists(Client client, Model tableDefine) throws StorageException {
-        ElasticSearchClient esClient = (ElasticSearchClient)client;
+        ElasticSearchClient5x esClient = (ElasticSearchClient5x)client;
         try {
             return esClient.isExistsIndex(tableDefine.getName());
         } catch (IOException e) {
@@ -60,7 +60,7 @@ public class StorageEsInstaller extends ModelInstaller {
     }
 
     @Override protected void deleteTable(Client client, Model tableDefine) throws StorageException {
-        ElasticSearchClient esClient = (ElasticSearchClient)client;
+        ElasticSearchClient5x esClient = (ElasticSearchClient5x)client;
 
         try {
             if (!esClient.deleteIndex(tableDefine.getName())) {
@@ -72,7 +72,7 @@ public class StorageEsInstaller extends ModelInstaller {
     }
 
     @Override protected void createTable(Client client, Model tableDefine) throws StorageException {
-        ElasticSearchClient esClient = (ElasticSearchClient)client;
+        ElasticSearchClient5x esClient = (ElasticSearchClient5x)client;
 
         // mapping
         XContentBuilder mappingBuilder = null;

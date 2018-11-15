@@ -22,14 +22,14 @@ import org.apache.skywalking.oap.server.core.analysis.indicator.Indicator;
 import org.apache.skywalking.oap.server.core.analysis.record.Record;
 import org.apache.skywalking.oap.server.core.register.RegisterSource;
 import org.apache.skywalking.oap.server.core.storage.*;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 
 /**
  * @author peng-yongsheng
  */
 public class StorageEsDAO extends EsDAO implements StorageDAO {
 
-    public StorageEsDAO(ElasticSearchClient client) {
+    public StorageEsDAO(ElasticSearchClient5x client) {
         super(client);
     }
 

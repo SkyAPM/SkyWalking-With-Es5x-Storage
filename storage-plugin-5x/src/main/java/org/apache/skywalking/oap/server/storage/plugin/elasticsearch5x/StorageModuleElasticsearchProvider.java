@@ -22,10 +22,10 @@ import org.apache.skywalking.oap.server.core.storage.*;
 import org.apache.skywalking.oap.server.core.storage.cache.*;
 import org.apache.skywalking.oap.server.core.storage.query.*;
 import org.apache.skywalking.oap.server.library.client.NameSpace;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.oap.server.library.module.*;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base.*;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.cache.*;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.lock.*;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.query.*;
 import org.slf4j.*;
@@ -39,7 +39,7 @@ public class StorageModuleElasticsearchProvider extends ModuleProvider {
 
     private final StorageModuleElasticsearchConfig config;
     private final NameSpace nameSpace;
-    private ElasticSearchClient elasticSearchClient;
+    private ElasticSearchClient5x elasticSearchClient;
 
     public StorageModuleElasticsearchProvider() {
         super();
@@ -49,7 +49,7 @@ public class StorageModuleElasticsearchProvider extends ModuleProvider {
 
     @Override
     public String name() {
-        return "elasticsearch";
+        return "elasticsearch-5x";
     }
 
     @Override
@@ -64,7 +64,7 @@ public class StorageModuleElasticsearchProvider extends ModuleProvider {
 
     @Override
     public void prepare() throws ServiceNotProvidedException {
-        elasticSearchClient = new ElasticSearchClient(config.getClusterNodes(), nameSpace);
+        elasticSearchClient = new ElasticSearchClient5x(config.getClusterName(), config.getClusterNodes(), nameSpace);
 
         this.registerServiceImplementation(IBatchDAO.class, new BatchProcessEsDAO(elasticSearchClient, config.getBulkActions(), config.getBulkSize(), config.getFlushInterval(), config.getConcurrentRequests()));
         this.registerServiceImplementation(StorageDAO.class, new StorageEsDAO(elasticSearchClient));

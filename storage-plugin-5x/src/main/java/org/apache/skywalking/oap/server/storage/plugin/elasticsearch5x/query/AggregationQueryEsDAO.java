@@ -25,8 +25,8 @@ import org.apache.skywalking.oap.server.core.query.entity.*;
 import org.apache.skywalking.oap.server.core.register.*;
 import org.apache.skywalking.oap.server.core.storage.DownSamplingModelNameBuilder;
 import org.apache.skywalking.oap.server.core.storage.query.IAggregationQueryDAO;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base.EsDAO;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -39,7 +39,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
  */
 public class AggregationQueryEsDAO extends EsDAO implements IAggregationQueryDAO {
 
-    public AggregationQueryEsDAO(ElasticSearchClient client) {
+    public AggregationQueryEsDAO(ElasticSearchClient5x client) {
         super(client);
     }
 

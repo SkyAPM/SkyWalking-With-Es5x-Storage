@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.Map;
 import org.apache.skywalking.oap.server.core.register.RegisterSource;
 import org.apache.skywalking.oap.server.core.storage.*;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.xcontent.*;
@@ -40,7 +40,7 @@ public class RegisterEsDAO extends EsDAO implements IRegisterDAO {
 
     private final StorageBuilder<RegisterSource> storageBuilder;
 
-    public RegisterEsDAO(ElasticSearchClient client, StorageBuilder<RegisterSource> storageBuilder) {
+    public RegisterEsDAO(ElasticSearchClient5x client, StorageBuilder<RegisterSource> storageBuilder) {
         super(client);
         this.storageBuilder = storageBuilder;
     }

@@ -23,9 +23,9 @@ import java.util.*;
 import org.apache.skywalking.oap.server.core.analysis.manual.segment.SegmentRecord;
 import org.apache.skywalking.oap.server.core.query.entity.*;
 import org.apache.skywalking.oap.server.core.storage.query.ITraceQueryDAO;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.oap.server.library.util.*;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base.EsDAO;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.SearchHit;
@@ -37,7 +37,7 @@ import org.elasticsearch.search.sort.SortOrder;
  */
 public class TraceQueryEsDAO extends EsDAO implements ITraceQueryDAO {
 
-    public TraceQueryEsDAO(ElasticSearchClient client) {
+    public TraceQueryEsDAO(ElasticSearchClient5x client) {
         super(client);
     }
 

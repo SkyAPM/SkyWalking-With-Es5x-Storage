@@ -24,9 +24,9 @@ import org.apache.skywalking.oap.server.core.alarm.AlarmRecord;
 import org.apache.skywalking.oap.server.core.query.entity.*;
 import org.apache.skywalking.oap.server.core.source.Scope;
 import org.apache.skywalking.oap.server.core.storage.query.IAlarmQueryDAO;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.oap.server.library.util.StringUtils;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base.*;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.SearchHit;
@@ -37,7 +37,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
  */
 public class AlarmQueryEsDAO extends EsDAO implements IAlarmQueryDAO {
 
-    public AlarmQueryEsDAO(ElasticSearchClient client) {
+    public AlarmQueryEsDAO(ElasticSearchClient5x client) {
         super(client);
     }
 

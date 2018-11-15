@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.skywalking.oap.server.core.storage.IBatchDAO;
 import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.oap.server.library.util.CollectionUtils;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -40,7 +41,7 @@ public class BatchProcessEsDAO extends EsDAO implements IBatchDAO {
     private final int flushInterval;
     private final int concurrentRequests;
 
-    public BatchProcessEsDAO(ElasticSearchClient client, int bulkActions, int bulkSize, int flushInterval,
+    public BatchProcessEsDAO(ElasticSearchClient5x client, int bulkActions, int bulkSize, int flushInterval,
         int concurrentRequests) {
         super(client);
         this.bulkActions = bulkActions;

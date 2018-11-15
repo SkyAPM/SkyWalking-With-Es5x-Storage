@@ -21,16 +21,16 @@ package org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base;
 import org.apache.skywalking.oap.server.core.analysis.indicator.Indicator;
 import org.apache.skywalking.oap.server.core.query.sql.Where;
 import org.apache.skywalking.oap.server.core.storage.AbstractDAO;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 /**
  * @author peng-yongsheng
  */
-public abstract class EsDAO extends AbstractDAO<ElasticSearchClient> {
+public abstract class EsDAO extends AbstractDAO<ElasticSearchClient5x> {
 
-    public EsDAO(ElasticSearchClient client) {
+    public EsDAO(ElasticSearchClient5x client) {
         super(client);
     }
 

@@ -24,9 +24,9 @@ import org.apache.skywalking.oap.server.core.query.entity.*;
 import org.apache.skywalking.oap.server.core.register.*;
 import org.apache.skywalking.oap.server.core.source.DetectPoint;
 import org.apache.skywalking.oap.server.core.storage.query.IMetadataQueryDAO;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.oap.server.library.util.*;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base.*;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.*;
@@ -38,7 +38,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
  */
 public class MetadataQueryEsDAO extends EsDAO implements IMetadataQueryDAO {
 
-    public MetadataQueryEsDAO(ElasticSearchClient client) {
+    public MetadataQueryEsDAO(ElasticSearchClient5x client) {
         super(client);
     }
 

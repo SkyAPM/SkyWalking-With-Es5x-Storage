@@ -21,7 +21,7 @@ package org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base;
 import java.io.IOException;
 import org.apache.skywalking.oap.server.core.analysis.indicator.Indicator;
 import org.apache.skywalking.oap.server.core.storage.IHistoryDeleteDAO;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.slf4j.*;
 
 /**
@@ -31,7 +31,7 @@ public class HistoryDeleteEsDAO extends EsDAO implements IHistoryDeleteDAO {
 
     private static final Logger logger = LoggerFactory.getLogger(HistoryDeleteEsDAO.class);
 
-    public HistoryDeleteEsDAO(ElasticSearchClient client) {
+    public HistoryDeleteEsDAO(ElasticSearchClient5x client) {
         super(client);
     }
 

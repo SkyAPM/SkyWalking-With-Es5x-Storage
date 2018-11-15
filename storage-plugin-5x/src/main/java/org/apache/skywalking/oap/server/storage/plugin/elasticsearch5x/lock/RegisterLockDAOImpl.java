@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.apache.skywalking.oap.server.core.source.Scope;
 import org.apache.skywalking.oap.server.core.storage.IRegisterLockDAO;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base.EsDAO;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.common.xcontent.*;
 import org.slf4j.*;
@@ -38,7 +38,7 @@ public class RegisterLockDAOImpl extends EsDAO implements IRegisterLockDAO {
 
     private final int timeout;
 
-    public RegisterLockDAOImpl(ElasticSearchClient client, int timeout) {
+    public RegisterLockDAOImpl(ElasticSearchClient5x client, int timeout) {
         super(client);
         this.timeout = timeout;
     }

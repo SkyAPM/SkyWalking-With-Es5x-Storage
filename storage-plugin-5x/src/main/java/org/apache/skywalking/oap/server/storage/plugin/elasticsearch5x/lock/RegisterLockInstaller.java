@@ -21,7 +21,7 @@ package org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.lock;
 import java.io.IOException;
 import org.apache.skywalking.oap.server.core.source.Scope;
 import org.apache.skywalking.oap.server.core.storage.StorageException;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.*;
@@ -34,9 +34,9 @@ public class RegisterLockInstaller {
 
     private static final Logger logger = LoggerFactory.getLogger(RegisterLockInstaller.class);
 
-    private final ElasticSearchClient client;
+    private final ElasticSearchClient5x client;
 
-    public RegisterLockInstaller(ElasticSearchClient client) {
+    public RegisterLockInstaller(ElasticSearchClient5x client) {
         this.client = client;
     }
 

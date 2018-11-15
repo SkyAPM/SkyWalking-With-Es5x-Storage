@@ -47,9 +47,9 @@ import org.slf4j.*;
 /**
  * @author peng-yongsheng
  */
-public class ElasticSearchClient implements Client {
+public class ElasticSearchClient5x implements Client {
 
-    private static final Logger logger = LoggerFactory.getLogger(ElasticSearchClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(ElasticSearchClient5x.class);
 
     private static final String TYPE = "type";
     private final String clusterName;
@@ -57,7 +57,7 @@ public class ElasticSearchClient implements Client {
     private final NameSpace namespace;
     private TransportClient client;
 
-    public ElasticSearchClient(String clusterName, String clusterNodes, NameSpace namespace) {
+    public ElasticSearchClient5x(String clusterName, String clusterNodes, NameSpace namespace) {
         this.clusterName = clusterName;
         this.clusterNodes = clusterNodes;
         this.namespace = namespace;

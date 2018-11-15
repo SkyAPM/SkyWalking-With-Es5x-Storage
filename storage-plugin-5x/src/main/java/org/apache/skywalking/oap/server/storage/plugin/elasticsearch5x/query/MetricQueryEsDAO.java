@@ -25,8 +25,8 @@ import org.apache.skywalking.oap.server.core.query.entity.*;
 import org.apache.skywalking.oap.server.core.query.sql.*;
 import org.apache.skywalking.oap.server.core.storage.DownSamplingModelNameBuilder;
 import org.apache.skywalking.oap.server.core.storage.query.IMetricQueryDAO;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base.EsDAO;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.get.*;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -40,7 +40,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
  */
 public class MetricQueryEsDAO extends EsDAO implements IMetricQueryDAO {
 
-    public MetricQueryEsDAO(ElasticSearchClient client) {
+    public MetricQueryEsDAO(ElasticSearchClient5x client) {
         super(client);
     }
 

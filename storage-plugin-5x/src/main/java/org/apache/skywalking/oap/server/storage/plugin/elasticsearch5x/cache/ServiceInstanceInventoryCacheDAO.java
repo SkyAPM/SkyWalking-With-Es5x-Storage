@@ -21,8 +21,8 @@ package org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.cache;
 import org.apache.skywalking.oap.server.core.Const;
 import org.apache.skywalking.oap.server.core.register.*;
 import org.apache.skywalking.oap.server.core.storage.cache.IServiceInstanceInventoryCacheDAO;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base.EsDAO;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -39,7 +39,7 @@ public class ServiceInstanceInventoryCacheDAO extends EsDAO implements IServiceI
 
     private final ServiceInstanceInventory.Builder builder = new ServiceInstanceInventory.Builder();
 
-    public ServiceInstanceInventoryCacheDAO(ElasticSearchClient client) {
+    public ServiceInstanceInventoryCacheDAO(ElasticSearchClient5x client) {
         super(client);
     }
 

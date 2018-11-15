@@ -23,7 +23,7 @@ import java.util.Map;
 import org.apache.skywalking.oap.server.core.analysis.record.Record;
 import org.apache.skywalking.oap.server.core.storage.*;
 import org.apache.skywalking.oap.server.core.storage.type.StorageDataType;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.common.xcontent.*;
 
@@ -34,7 +34,7 @@ public class RecordEsDAO extends EsDAO implements IRecordDAO<IndexRequest> {
 
     private final StorageBuilder<Record> storageBuilder;
 
-    public RecordEsDAO(ElasticSearchClient client, StorageBuilder<Record> storageBuilder) {
+    public RecordEsDAO(ElasticSearchClient5x client, StorageBuilder<Record> storageBuilder) {
         super(client);
         this.storageBuilder = storageBuilder;
     }

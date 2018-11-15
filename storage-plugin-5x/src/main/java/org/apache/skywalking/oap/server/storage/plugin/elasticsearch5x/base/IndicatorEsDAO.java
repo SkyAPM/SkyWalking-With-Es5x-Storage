@@ -23,7 +23,7 @@ import java.util.Map;
 import org.apache.skywalking.oap.server.core.analysis.indicator.Indicator;
 import org.apache.skywalking.oap.server.core.storage.*;
 import org.apache.skywalking.oap.server.core.storage.type.StorageDataType;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -39,7 +39,7 @@ public class IndicatorEsDAO extends EsDAO implements IIndicatorDAO<IndexRequest,
 
     private final StorageBuilder<Indicator> storageBuilder;
 
-    public IndicatorEsDAO(ElasticSearchClient client, StorageBuilder<Indicator> storageBuilder) {
+    public IndicatorEsDAO(ElasticSearchClient5x client, StorageBuilder<Indicator> storageBuilder) {
         super(client);
         this.storageBuilder = storageBuilder;
     }

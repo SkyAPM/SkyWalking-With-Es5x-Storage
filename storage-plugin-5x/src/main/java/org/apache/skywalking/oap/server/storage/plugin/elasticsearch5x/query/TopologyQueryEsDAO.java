@@ -28,9 +28,9 @@ import org.apache.skywalking.oap.server.core.query.entity.*;
 import org.apache.skywalking.oap.server.core.source.*;
 import org.apache.skywalking.oap.server.core.storage.DownSamplingModelNameBuilder;
 import org.apache.skywalking.oap.server.core.storage.query.ITopologyQueryDAO;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.oap.server.library.util.CollectionUtils;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base.EsDAO;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -42,7 +42,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
  */
 public class TopologyQueryEsDAO extends EsDAO implements ITopologyQueryDAO {
 
-    public TopologyQueryEsDAO(ElasticSearchClient client) {
+    public TopologyQueryEsDAO(ElasticSearchClient5x client) {
         super(client);
     }
 

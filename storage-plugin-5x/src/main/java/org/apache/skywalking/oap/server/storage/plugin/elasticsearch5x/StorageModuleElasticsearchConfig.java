@@ -26,6 +26,7 @@ import org.apache.skywalking.oap.server.library.module.ModuleConfig;
  */
 public class StorageModuleElasticsearchConfig extends ModuleConfig {
 
+    @Setter @Getter private String clusterName;
     @Setter @Getter private String nameSpace;
     @Setter @Getter private String clusterNodes;
     private int indexShardsNumber;
