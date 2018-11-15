@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>storage-elasticsearch-5x-plugin</artifactId>
+        <groupId>org.apache.skywalking</groupId>
+        <version>6.0.0-alpha</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>apache-skywalking-apm-incubating</artifactId>
+    <packaging>pom</packaging>
+
+    <build>
+        <finalName>apache-skywalking-apm-incubating</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>dist</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <attach>true</attach>
+                    <tarLongFileMode>posix</tarLongFileMode>
+                    <runOnlyAtExecutionRoot>false</runOnlyAtExecutionRoot>
+                    <descriptors>
+                        <descriptor>${project.basedir}/src/main/assembly/binary.xml</descriptor>
+                    </descriptors>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <copy file="${project.build.directory}/apache-skywalking-apm-incubating.tar.gz" tofile="${project.basedir}/../dist/apache-skywalking-apm-incubating.tar.gz" overwrite="true" />
+                                <copy file="${project.build.directory}/apache-skywalking-apm-incubating.zip" tofile="${project.basedir}/../dist/apache-skywalking-apm-incubating.zip" overwrite="true" />
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
