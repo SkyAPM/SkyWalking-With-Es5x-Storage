@@ -29,7 +29,7 @@ import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSear
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base.EsDAO;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.*;
-import org.elasticsearch.search.aggregations.*;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.*;
 import org.elasticsearch.search.aggregations.metrics.avg.Avg;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -114,7 +114,7 @@ public class AggregationQueryEsDAO extends EsDAO implements IAggregationQueryDAO
         TermsAggregationBuilder aggregationBuilder = AggregationBuilders
             .terms(Indicator.ENTITY_ID)
             .field(Indicator.ENTITY_ID)
-            .order(BucketOrder.aggregation(valueCName, asc))
+            .order(Terms.Order.aggregation(valueCName, asc))
             .size(topN)
             .subAggregation(
                 AggregationBuilders.avg(valueCName).field(valueCName)
