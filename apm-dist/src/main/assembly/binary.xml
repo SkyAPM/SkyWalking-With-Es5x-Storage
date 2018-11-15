@@ -28,7 +28,7 @@
     <fileSets>
         <fileSet>
             <directory>${project.basedir}/bin</directory>
-            <outputDirectory>/bin</outputDirectory>
+            <outputDirectory>${project.basedir}/target/bin</outputDirectory>
             <includes>
                 <include>*.sh</include>
                 <include>*.bat</include>
@@ -39,7 +39,7 @@
             <directory>
                 ${project.basedir}/src/main/assembly
             </directory>
-            <outputDirectory>/config</outputDirectory>
+            <outputDirectory>${project.basedir}/target/config</outputDirectory>
             <includes>
                 <include>log4j2.xml</include>
                 <include>application.yml</include>
@@ -48,16 +48,14 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>
-                ${project.basedir}/target/dependency
-            </directory>
-            <outputDirectory>/oap-libs</outputDirectory>
+            <directory>${project.basedir}/../storage-plugin-5x/target/skywalking-oap-assembly/skywalking-oap/libs</directory>
+            <outputDirectory>${project.basedir}/target/oap-libs</outputDirectory>
         </fileSet>
 
         <!-- Release docs and licenses -->
         <fileSet>
             <directory>${project.basedir}/../</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>${project.basedir}/target/</outputDirectory>
             <includes>
                 <include>DISCLAIMER</include>
                 <include>CHANGES</include>
@@ -66,18 +64,18 @@
 
         <fileSet>
             <directory>${project.basedir}/release-docs</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>${project.basedir}/target/</outputDirectory>
         </fileSet>
     </fileSets>
     <files>
-        <!--<file>-->
-            <!--<source>${project.basedir}/target/dependency/apm-webapp-6.0.0-alpha.jar</source>-->
-            <!--<outputDirectory>/webapp</outputDirectory>-->
-            <!--<fileMode>0644</fileMode>-->
-        <!--</file>-->
         <file>
-            <source>${project.basedir}/src/main/assembly/webapp.yml</source>
-            <outputDirectory>/webapp</outputDirectory>
+            <source>${project.basedir}/../apm-webapp/target/skywalking-webapp.jar</source>
+            <outputDirectory>${project.basedir}/target/webapp</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${project.basedir}/../apm-webapp/src/main/assembly/webapp.yml</source>
+            <outputDirectory>${project.basedir}/target/webapp</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

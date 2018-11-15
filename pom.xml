@@ -8,6 +8,7 @@
     <artifactId>storage-elasticsearch-5x-plugin</artifactId>
     <version>6.0.0-alpha</version>
     <modules>
+        <module>apm-webapp</module>
         <module>storage-plugin-5x</module>
         <module>apm-dist</module>
     </modules>
@@ -54,24 +55,11 @@
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.skywalking</groupId>
-            <artifactId>server-starter</artifactId>
-            <version>${core.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.skywalking</groupId>
-                    <artifactId>storage-elasticsearch-plugin</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-    </dependencies>
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.apache.skywalking</groupId>
-                <artifactId>server-core</artifactId>
+                <artifactId>server-starter</artifactId>
                 <version>${core.version}</version>
                 <scope>provided</scope>
                 <exclusions>
