@@ -18,80 +18,45 @@
         <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
 
         <ui.path>${project.parent.basedir}/skywalking-ui</ui.path>
+        <webapp.version>6.0.0-alpha</webapp.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.skywalking</groupId>
             <artifactId>apm-webapp</artifactId>
-            <version>6.0.0-alpha</version>
+            <version>${webapp.version}</version>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>skywalking-webapp</finalName>
-        <resources>
-
-        </resources>
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <source>${compiler.version}</source>
-                    <target>${compiler.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-            <!--<plugin>-->
-                <!--<groupId>com.github.eirslett</groupId>-->
-                <!--<artifactId>frontend-maven-plugin</artifactId>-->
-                <!--<version>${frontend-maven-plugin.version}</version>-->
-                <!--<configuration>-->
-                    <!--<workingDirectory>${ui.path}</workingDirectory>-->
-                    <!--<nodeVersion>v8.9.4</nodeVersion>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>install node and npm</id>-->
-                        <!--<goals>-->
-                            <!--<goal>install-node-and-npm</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                    <!--<execution>-->
-                        <!--<id>npm install</id>-->
-                        <!--<goals>-->
-                            <!--<goal>npm</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<arguments>install &#45;&#45;registry=https://registry.npmjs.org/</arguments>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                    <!--<execution>-->
-                        <!--<id>npm run build</id>-->
-                        <!--<goals>-->
-                            <!--<goal>npm</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<arguments>run build</arguments>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>org.apache.skywalking</groupId>
+                            <artifactId>apm-webapp</artifactId>
+                            <version>${webapp.version}</version>
+                            <type>jar</type>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <destFileName>skywalking-webapp.jar</destFileName>
+                        </artifactItem>
+                    </artifactItems>
                     <outputDirectory>${project.build.directory}</outputDirectory>
-                    <resources>
-                        <resource>
-                            <targetPath>${basedir}/target/classes/public</targetPath>
-                            <directory>${ui.path}/dist</directory>
-                        </resource>
-                        <resource>
-                            <targetPath>${basedir}/target/classes</targetPath>
-                            <directory>src/main/resources</directory>
-                        </resource>
-                    </resources>
                 </configuration>
             </plugin>
         </plugins>
