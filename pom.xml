@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.skywalking</groupId>
-    <artifactId>storage-elasticsearch-5x-plugin</artifactId>
+    <artifactId>apm</artifactId>
     <version>6.0.0-alpha</version>
     <modules>
         <module>apm-webapp</module>
-        <module>storage-plugin-5x</module>
+        <module>storage-elasticsearch5x-plugin</module>
         <module>apm-dist</module>
     </modules>
     <packaging>pom</packaging>
@@ -61,7 +61,6 @@
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>server-starter</artifactId>
                 <version>${core.version}</version>
-                <scope>provided</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>org.elasticsearch.client</groupId>
@@ -93,19 +92,6 @@
                     <target>${compiler.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.8</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
