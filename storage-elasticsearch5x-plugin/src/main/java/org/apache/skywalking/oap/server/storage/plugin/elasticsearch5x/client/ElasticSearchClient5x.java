@@ -148,24 +148,17 @@ public class ElasticSearchClient5x implements Client {
     }
 
     public void forceInsert(String indexName, String id, XContentBuilder source) throws IOException {
-        IndexRequest request = prepareInsert(indexName, id, source);
-        request.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
-        client.index(request);
+        client.prepareIndex(indexName, TYPE, id).setSource(source).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE).get();
     }
 
     public void forceUpdate(String indexName, String id, XContentBuilder source, long version) throws IOException {
         indexName = formatIndexName(indexName);
-        UpdateRequest request = prepareUpdate(indexName, id, source);
-        request.version(version);
-        request.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
-        client.update(request);
+        client.prepareUpdate(indexName, TYPE, id).setDoc(source).setVersion(version).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE).get();
     }
 
     public void forceUpdate(String indexName, String id, XContentBuilder source) throws IOException {
         indexName = formatIndexName(indexName);
-        UpdateRequest request = prepareUpdate(indexName, id, source);
-        request.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
-        client.update(request);
+        client.prepareUpdate(indexName, TYPE, id).setDoc(source).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE).get();
     }
 
     public IndexRequest prepareInsert(String indexName, String id, XContentBuilder source) {
@@ -184,6 +177,7 @@ public class ElasticSearchClient5x implements Client {
         BulkByScrollResponse response = DeleteByQueryAction.INSTANCE.newRequestBuilder(client)
             .filter(QueryBuilders.rangeQuery(timeBucketColumnName).lte(endTimeBucket))
             .source(indexName)
+            .refresh(true)
             .get();
 
         logger.debug("{} records delete from index {}", response.getDeleted(), indexName);
