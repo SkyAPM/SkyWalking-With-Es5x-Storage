@@ -52,8 +52,8 @@ public class NetworkAddressInventoryCacheEsDAO extends EsDAO implements INetwork
             } else {
                 return Const.NONE;
             }
-        } catch (Throwable e) {
-            logger.error(e.getMessage());
+        } catch (Throwable t) {
+            logger.error(t.getMessage(), t);
             return Const.NONE;
         }
     }
@@ -71,8 +71,8 @@ public class NetworkAddressInventoryCacheEsDAO extends EsDAO implements INetwork
             } else {
                 return null;
             }
-        } catch (Throwable e) {
-            logger.error(e.getMessage());
+        } catch (Throwable t) {
+            logger.error(t.getMessage(), t);
             return null;
         }
     }

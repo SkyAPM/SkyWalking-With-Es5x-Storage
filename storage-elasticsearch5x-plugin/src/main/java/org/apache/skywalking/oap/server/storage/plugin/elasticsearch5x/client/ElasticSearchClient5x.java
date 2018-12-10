@@ -63,7 +63,7 @@ public class ElasticSearchClient5x implements Client {
         this.namespace = namespace;
     }
 
-    @Override public void initialize() {
+    @Override public void connect() {
         List<HttpHost> pairsList = parseClusterNodes(clusterNodes);
 
         Settings settings = Settings.builder()

@@ -12,13 +12,6 @@
     <artifactId>storage-elasticsearch5x-plugin</artifactId>
     <packaging>jar</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <compiler.version>1.8</compiler.version>
-        <lombok.version>1.18.0</lombok.version>
-        <core.version>6.0.0-alpha</core.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.elasticsearch.client</groupId>

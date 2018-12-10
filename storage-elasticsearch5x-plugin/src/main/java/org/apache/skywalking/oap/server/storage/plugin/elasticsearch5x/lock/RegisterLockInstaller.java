@@ -19,8 +19,10 @@
 package org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.lock;
 
 import java.io.IOException;
+import org.apache.skywalking.oap.server.core.register.worker.InventoryProcess;
 import org.apache.skywalking.oap.server.core.source.Scope;
 import org.apache.skywalking.oap.server.core.storage.StorageException;
+import org.apache.skywalking.oap.server.core.storage.annotation.StorageEntityAnnotationUtils;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.common.settings.Settings;
@@ -45,10 +47,10 @@ public class RegisterLockInstaller {
             if (!client.isExistsIndex(RegisterLockIndex.NAME)) {
                 createIndex();
             }
-            putIfAbsent(Scope.Endpoint.ordinal());
-            putIfAbsent(Scope.ServiceInstance.ordinal());
-            putIfAbsent(Scope.Service.ordinal());
-            putIfAbsent(Scope.NetworkAddress.ordinal());
+            for (Class registerSource : InventoryProcess.INSTANCE.getAllRegisterSources()) {
+                Scope sourceScope = StorageEntityAnnotationUtils.getSourceScope(registerSource);
+                putIfAbsent(sourceScope.ordinal());
+            }
         } catch (IOException e) {
             throw new StorageException(e.getMessage());
         }
