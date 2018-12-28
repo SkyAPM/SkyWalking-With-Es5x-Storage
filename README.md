@@ -7,7 +7,7 @@ This repository does redistribution based on official Apache releases. The redis
 ## Redistribution versions
 | Version |Apache official release| 
 |---|----|
-|No release yet| 6.0.0-alpha |
+|6.0.0-alpha| 6.0.0-alpha |
 
 ## LICENSE
 Apache 2.0
