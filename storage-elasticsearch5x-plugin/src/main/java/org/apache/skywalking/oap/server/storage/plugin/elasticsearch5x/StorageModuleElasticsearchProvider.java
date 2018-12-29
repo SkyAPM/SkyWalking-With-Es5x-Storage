@@ -61,8 +61,7 @@ public class StorageModuleElasticsearchProvider extends ModuleProvider {
 
     @Override
     public void prepare() throws ServiceNotProvidedException {
-        elasticSearchClient = new ElasticSearchClient5x(config.getClusterName(), config.getClusterNodes(), config.getNameSpace(),
-                config.getUsername(), config.getPassword());
+        elasticSearchClient = new ElasticSearchClient5x(config.getClusterName(), config.getClusterNodes(), config.getNameSpace());
 
         this.registerServiceImplementation(IBatchDAO.class, new BatchProcessEsDAO(elasticSearchClient, config.getBulkActions(), config.getBulkSize(), config.getFlushInterval(), config.getConcurrentRequests()));
         this.registerServiceImplementation(StorageDAO.class, new StorageEsDAO(elasticSearchClient));
