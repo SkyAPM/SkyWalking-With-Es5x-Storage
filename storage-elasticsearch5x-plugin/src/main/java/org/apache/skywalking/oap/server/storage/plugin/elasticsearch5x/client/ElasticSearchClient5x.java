@@ -36,6 +36,7 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.settings.Settings.Builder;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.*;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -72,10 +73,12 @@ public class ElasticSearchClient5x implements Client {
     @Override public void connect() {
         List<HttpHost> pairsList = parseClusterNodes(clusterNodes);
 
-        Settings settings = Settings.builder()
-            .put("cluster.name", clusterName).build();
+        Builder builder = Settings.builder().put("cluster.name", clusterName);
+        if (!username.isEmpty()) {
+            builder.put("xpack.security.user", username + ":" + password);
+        }
 
-        client = new PreBuiltTransportClient(settings);
+        client = new PreBuiltTransportClient(builder.build());
 
         pairsList.forEach(pairs -> {
             try {

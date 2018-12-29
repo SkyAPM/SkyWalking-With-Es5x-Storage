@@ -12,6 +12,10 @@
     <artifactId>storage-elasticsearch5x-plugin</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <jackson.verison>2.9.5</jackson.verison>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
