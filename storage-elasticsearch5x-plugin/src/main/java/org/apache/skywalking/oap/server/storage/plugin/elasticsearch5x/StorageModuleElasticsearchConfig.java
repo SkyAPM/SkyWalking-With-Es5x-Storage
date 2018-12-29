@@ -29,6 +29,8 @@ public class StorageModuleElasticsearchConfig extends ModuleConfig {
     @Setter @Getter private String clusterName;
     @Setter @Getter private String nameSpace;
     @Setter @Getter private String clusterNodes;
+    @Setter @Getter private String username;
+    @Setter @Getter private String password;
     private int indexShardsNumber;
     private int indexReplicasNumber;
     private boolean highPerformanceMode;

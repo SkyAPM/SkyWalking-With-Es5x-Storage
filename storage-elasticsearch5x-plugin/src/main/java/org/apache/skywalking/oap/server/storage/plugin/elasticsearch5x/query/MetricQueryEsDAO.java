@@ -44,6 +44,7 @@ public class MetricQueryEsDAO extends EsDAO implements IMetricQueryDAO {
         super(client);
     }
 
+    @Override
     public IntValues getValues(String indName, Step step, long startTB, long endTB, Where where, String valueCName,
         Function function) throws IOException {
         String indexName = DownSamplingModelNameBuilder.build(step, indName);
