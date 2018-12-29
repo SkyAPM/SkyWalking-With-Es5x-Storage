@@ -23,17 +23,18 @@ import java.net.*;
 import java.util.*;
 import org.apache.http.HttpHost;
 import org.apache.skywalking.oap.server.library.client.*;
-import org.apache.skywalking.oap.server.library.util.StringUtils;
 import org.elasticsearch.action.admin.indices.create.*;
 import org.elasticsearch.action.admin.indices.delete.*;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.bulk.*;
+import org.elasticsearch.action.bulk.byscroll.BulkByScrollResponse;
 import org.elasticsearch.action.get.*;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.*;
 import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.*;
@@ -54,10 +55,10 @@ public class ElasticSearchClient5x implements Client {
     private static final String TYPE = "type";
     private final String clusterName;
     private final String clusterNodes;
-    private final NameSpace namespace;
+    private final String namespace;
     private TransportClient client;
 
-    public ElasticSearchClient5x(String clusterName, String clusterNodes, NameSpace namespace) {
+    public ElasticSearchClient5x(String clusterName, String clusterNodes, String namespace) {
         this.clusterName = clusterName;
         this.clusterNodes = clusterNodes;
         this.namespace = namespace;
@@ -66,8 +67,7 @@ public class ElasticSearchClient5x implements Client {
     @Override public void connect() {
         List<HttpHost> pairsList = parseClusterNodes(clusterNodes);
 
-        Settings settings = Settings.builder()
-            .put("cluster.name", clusterName).build();
+        Settings settings = Settings.builder().put("cluster.name", clusterName).build();
 
         client = new PreBuiltTransportClient(settings);
 
@@ -152,12 +152,10 @@ public class ElasticSearchClient5x implements Client {
     }
 
     public void forceUpdate(String indexName, String id, XContentBuilder source, long version) throws IOException {
-        indexName = formatIndexName(indexName);
         client.prepareUpdate(indexName, TYPE, id).setDoc(source).setVersion(version).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE).get();
     }
 
     public void forceUpdate(String indexName, String id, XContentBuilder source) throws IOException {
-        indexName = formatIndexName(indexName);
         client.prepareUpdate(indexName, TYPE, id).setDoc(source).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE).get();
     }
 
@@ -185,8 +183,8 @@ public class ElasticSearchClient5x implements Client {
     }
 
     private String formatIndexName(String indexName) {
-        if (Objects.nonNull(namespace) && StringUtils.isNotEmpty(namespace.getNameSpace())) {
-            return namespace.getNameSpace() + "_" + indexName;
+        if (!Strings.isNullOrEmpty(namespace)) {
+            return namespace + "_" + indexName;
         }
         return indexName;
     }

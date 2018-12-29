@@ -6,7 +6,7 @@
 
     <groupId>org.apache.skywalking</groupId>
     <artifactId>apm</artifactId>
-    <version>6.0.0-alpha</version>
+    <version>6.0.0-beta</version>
     <modules>
         <module>apm-webapp</module>
         <module>storage-elasticsearch5x-plugin</module>
@@ -49,9 +49,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <compiler.version>1.8</compiler.version>
-        <core.version>6.0.0-beta-SNAPSHOT</core.version>
+        <core.version>6.0.0-beta</core.version>
         <lombok.version>1.18.0</lombok.version>
-        <elasticsearch.version>5.5.2</elasticsearch.version>
+        <elasticsearch.version>5.4.0</elasticsearch.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
     </properties>
 
