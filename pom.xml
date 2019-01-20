@@ -6,7 +6,7 @@
 
     <groupId>org.apache.skywalking</groupId>
     <artifactId>apm</artifactId>
-    <version>6.0.0-alpha</version>
+    <version>6.0.0-beta</version>
     <modules>
         <module>apm-webapp</module>
         <module>storage-elasticsearch5x-plugin</module>
@@ -49,8 +49,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <compiler.version>1.8</compiler.version>
-        <core.version>6.0.0-beta-SNAPSHOT</core.version>
+        <core.version>6.0.0-beta</core.version>
         <lombok.version>1.18.0</lombok.version>
+        <jackson.version>2.8.8</jackson.version>
         <elasticsearch.version>5.5.2</elasticsearch.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
     </properties>
@@ -116,6 +117,31 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-smile</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-cbor</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -18,14 +18,14 @@
 
 package org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.query;
 
+import com.google.common.base.Strings;
 import java.io.IOException;
 import java.util.Objects;
 import org.apache.skywalking.oap.server.core.alarm.AlarmRecord;
 import org.apache.skywalking.oap.server.core.query.entity.*;
 import org.apache.skywalking.oap.server.core.source.Scope;
 import org.apache.skywalking.oap.server.core.storage.query.IAlarmQueryDAO;
-import org.apache.skywalking.oap.server.library.util.StringUtils;
-import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base.*;
+import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base.EsDAO;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.*;
@@ -52,8 +52,8 @@ public class AlarmQueryEsDAO extends EsDAO implements IAlarmQueryDAO {
             boolQueryBuilder.must().add(QueryBuilders.termQuery(AlarmRecord.SCOPE, scope.ordinal()));
         }
 
-        if (StringUtils.isNotEmpty(keyword)) {
-            String matchCName = MatchCNameBuilder.INSTANCE.build(AlarmRecord.ALARM_MESSAGE);
+        if (!Strings.isNullOrEmpty(keyword)) {
+            String matchCName = org.apache.skywalking.oap.server.storage.plugin.elasticsearch.base.MatchCNameBuilder.INSTANCE.build(AlarmRecord.ALARM_MESSAGE);
             boolQueryBuilder.must().add(QueryBuilders.matchQuery(matchCName, keyword));
         }
 

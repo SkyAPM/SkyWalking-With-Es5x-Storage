@@ -20,7 +20,6 @@ package org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base;
 
 import java.util.List;
 import org.apache.skywalking.oap.server.core.storage.IBatchDAO;
-import org.apache.skywalking.oap.server.library.client.elasticsearch.ElasticSearchClient;
 import org.apache.skywalking.oap.server.library.util.CollectionUtils;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.bulk.BulkProcessor;

@@ -21,9 +21,9 @@ package org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client;
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
-import org.apache.skywalking.oap.server.library.client.*;
-import org.apache.skywalking.oap.server.library.util.StringUtils;
+import org.apache.skywalking.oap.server.library.client.Client;
 import org.elasticsearch.action.admin.indices.create.*;
 import org.elasticsearch.action.admin.indices.delete.*;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
@@ -54,10 +54,10 @@ public class ElasticSearchClient5x implements Client {
     private static final String TYPE = "type";
     private final String clusterName;
     private final String clusterNodes;
-    private final NameSpace namespace;
+    private final String namespace;
     private TransportClient client;
 
-    public ElasticSearchClient5x(String clusterName, String clusterNodes, NameSpace namespace) {
+    public ElasticSearchClient5x(String clusterName, String clusterNodes, String namespace) {
         this.clusterName = clusterName;
         this.clusterNodes = clusterNodes;
         this.namespace = namespace;
@@ -185,8 +185,8 @@ public class ElasticSearchClient5x implements Client {
     }
 
     private String formatIndexName(String indexName) {
-        if (Objects.nonNull(namespace) && StringUtils.isNotEmpty(namespace.getNameSpace())) {
-            return namespace.getNameSpace() + "_" + indexName;
+        if (StringUtils.isNotEmpty(namespace)) {
+            return namespace + "_" + indexName;
         }
         return indexName;
     }

@@ -24,11 +24,7 @@ import org.apache.skywalking.oap.server.core.register.RegisterSource;
 import org.apache.skywalking.oap.server.core.storage.*;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
 import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.xcontent.*;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.metrics.max.Max;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.*;
 
 /**
@@ -55,18 +51,16 @@ public class RegisterEsDAO extends EsDAO implements IRegisterDAO {
     }
 
     @Override public void forceInsert(String modelName, RegisterSource source) throws IOException {
-        Map<String, Object> objectMap = storageBuilder.data2Map(source);
-
-        XContentBuilder builder = XContentFactory.jsonBuilder().startObject();
-        for (String key : objectMap.keySet()) {
-            builder.field(key, objectMap.get(key));
-        }
-        builder.endObject();
-
+        XContentBuilder builder = build(source);
         getClient().forceInsert(modelName, source.id(), builder);
     }
 
     @Override public void forceUpdate(String modelName, RegisterSource source) throws IOException {
+        XContentBuilder builder = build(source);
+        getClient().forceUpdate(modelName, source.id(), builder);
+    }
+
+    private XContentBuilder build(RegisterSource source) throws IOException {
         Map<String, Object> objectMap = storageBuilder.data2Map(source);
 
         XContentBuilder builder = XContentFactory.jsonBuilder().startObject();
@@ -75,25 +69,6 @@ public class RegisterEsDAO extends EsDAO implements IRegisterDAO {
         }
         builder.endObject();
 
-        getClient().forceUpdate(modelName, source.id(), builder);
-    }
-
-    @Override public int max(String modelName) throws IOException {
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.aggregation(AggregationBuilders.max(RegisterSource.SEQUENCE).field(RegisterSource.SEQUENCE));
-        searchSourceBuilder.size(0);
-        return getResponse(modelName, searchSourceBuilder);
-    }
-
-    private int getResponse(String modelName, SearchSourceBuilder searchSourceBuilder) throws IOException {
-        SearchResponse searchResponse = getClient().search(modelName, searchSourceBuilder);
-        Max agg = searchResponse.getAggregations().get(RegisterSource.SEQUENCE);
-
-        int id = (int)agg.getValue();
-        if (id == Integer.MAX_VALUE || id == Integer.MIN_VALUE) {
-            return 1;
-        } else {
-            return id;
-        }
+        return builder;
     }
 }

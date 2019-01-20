@@ -37,7 +37,7 @@ public class HistoryDeleteEsDAO extends EsDAO implements IHistoryDeleteDAO {
 
     @Override
     public void deleteHistory(String modelName, String timeBucketColumnName, Long timeBucketBefore) throws IOException {
-        int statusCode = getClient().delete(modelName, Indicator.TIME_BUCKET, timeBucketBefore);
+        int statusCode = getClient().delete(modelName, timeBucketColumnName, timeBucketBefore);
         if (logger.isDebugEnabled()) {
             logger.debug("Delete history from {} index, status code {}", modelName, statusCode);
         }

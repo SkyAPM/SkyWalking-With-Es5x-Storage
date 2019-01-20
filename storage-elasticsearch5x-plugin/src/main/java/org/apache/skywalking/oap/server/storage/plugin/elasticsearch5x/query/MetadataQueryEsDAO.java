@@ -18,6 +18,7 @@
 
 package org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.query;
 
+import com.google.common.base.Strings;
 import java.io.IOException;
 import java.util.*;
 import org.apache.skywalking.oap.server.core.query.entity.*;
@@ -74,11 +75,7 @@ public class MetadataQueryEsDAO extends EsDAO implements IMetadataQueryDAO {
     @Override public int numOfConjectural(long startTimestamp, long endTimestamp, int srcLayer) throws IOException {
         SearchSourceBuilder sourceBuilder = SearchSourceBuilder.searchSource();
 
-        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        boolQueryBuilder.must().add(timeRangeQueryBuild(startTimestamp, endTimestamp));
-        boolQueryBuilder.must().add(QueryBuilders.termQuery(NetworkAddressInventory.SRC_LAYER, srcLayer));
-
-        sourceBuilder.query(boolQueryBuilder);
+        sourceBuilder.query(QueryBuilders.termQuery(NetworkAddressInventory.SRC_LAYER, srcLayer));
         sourceBuilder.size(0);
 
         SearchResponse response = getClient().search(NetworkAddressInventory.MODEL_NAME, sourceBuilder);
@@ -111,7 +108,7 @@ public class MetadataQueryEsDAO extends EsDAO implements IMetadataQueryDAO {
         boolQueryBuilder.must().add(timeRangeQueryBuild(startTimestamp, endTimestamp));
         boolQueryBuilder.must().add(QueryBuilders.termQuery(ServiceInventory.IS_ADDRESS, BooleanUtils.FALSE));
 
-        if (StringUtils.isNotEmpty(keyword)) {
+        if (!Strings.isNullOrEmpty(keyword)) {
             String matchCName = MatchCNameBuilder.INSTANCE.build(ServiceInventory.NAME);
             boolQueryBuilder.must().add(QueryBuilders.matchQuery(matchCName, keyword));
         }
@@ -143,7 +140,7 @@ public class MetadataQueryEsDAO extends EsDAO implements IMetadataQueryDAO {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         boolQueryBuilder.must().add(QueryBuilders.termQuery(EndpointInventory.SERVICE_ID, serviceId));
 
-        if (StringUtils.isNotEmpty(keyword)) {
+        if (!Strings.isNullOrEmpty(keyword)) {
             String matchCName = MatchCNameBuilder.INSTANCE.build(EndpointInventory.NAME);
             boolQueryBuilder.must().add(QueryBuilders.matchQuery(matchCName, keyword));
         }
@@ -193,11 +190,11 @@ public class MetadataQueryEsDAO extends EsDAO implements IMetadataQueryDAO {
             serviceInstance.setLanguage(LanguageTrans.INSTANCE.value(languageId));
 
             String osName = (String)sourceAsMap.get(ServiceInstanceInventory.OS_NAME);
-            if (StringUtils.isNotEmpty(osName)) {
+            if (!Strings.isNullOrEmpty(osName)) {
                 serviceInstance.getAttributes().add(new Attribute(ServiceInstanceInventory.OS_NAME, osName));
             }
             String hostName = (String)sourceAsMap.get(ServiceInstanceInventory.HOST_NAME);
-            if (StringUtils.isNotEmpty(hostName)) {
+            if (!Strings.isNullOrEmpty(hostName)) {
                 serviceInstance.getAttributes().add(new Attribute(ServiceInstanceInventory.HOST_NAME, hostName));
             }
             serviceInstance.getAttributes().add(new Attribute(ServiceInstanceInventory.PROCESS_NO, String.valueOf(((Number)sourceAsMap.get(ServiceInstanceInventory.PROCESS_NO)).intValue())));

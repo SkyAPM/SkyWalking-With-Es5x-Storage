@@ -18,6 +18,7 @@
 
 package org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.query;
 
+import com.google.common.base.Strings;
 import java.io.IOException;
 import java.util.*;
 import org.apache.skywalking.oap.server.core.analysis.manual.segment.SegmentRecord;
@@ -65,7 +66,7 @@ public class TraceQueryEsDAO extends EsDAO implements ITraceQueryDAO {
             }
             boolQueryBuilder.must().add(rangeQueryBuilder);
         }
-        if (StringUtils.isNotEmpty(endpointName)) {
+        if (!Strings.isNullOrEmpty(endpointName)) {
             mustQueryList.add(QueryBuilders.matchPhraseQuery(SegmentRecord.ENDPOINT_NAME, endpointName));
         }
         if (serviceId != 0) {
@@ -74,7 +75,7 @@ public class TraceQueryEsDAO extends EsDAO implements ITraceQueryDAO {
         if (endpointId != 0) {
             boolQueryBuilder.must().add(QueryBuilders.termQuery(SegmentRecord.ENDPOINT_ID, endpointId));
         }
-        if (StringUtils.isNotEmpty(traceId)) {
+        if (!Strings.isNullOrEmpty(traceId)) {
             boolQueryBuilder.must().add(QueryBuilders.termQuery(SegmentRecord.TRACE_ID, traceId));
         }
         switch (traceState) {
@@ -135,9 +136,10 @@ public class TraceQueryEsDAO extends EsDAO implements ITraceQueryDAO {
             segmentRecord.setLatency(((Number)searchHit.getSourceAsMap().get(SegmentRecord.LATENCY)).intValue());
             segmentRecord.setIsError(((Number)searchHit.getSourceAsMap().get(SegmentRecord.IS_ERROR)).intValue());
             String dataBinaryBase64 = (String)searchHit.getSourceAsMap().get(SegmentRecord.DATA_BINARY);
-            if (StringUtils.isNotEmpty(dataBinaryBase64)) {
+            if (!Strings.isNullOrEmpty(dataBinaryBase64)) {
                 segmentRecord.setDataBinary(Base64.getDecoder().decode(dataBinaryBase64));
             }
+            segmentRecord.setVersion(((Number)searchHit.getSourceAsMap().get(SegmentRecord.VERSION)).intValue());
             segmentRecords.add(segmentRecord);
         }
         return segmentRecords;
