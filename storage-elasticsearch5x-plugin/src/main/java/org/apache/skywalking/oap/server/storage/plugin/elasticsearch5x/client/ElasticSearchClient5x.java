@@ -184,7 +184,7 @@ public class ElasticSearchClient5x implements Client {
         return 0;
     }
 
-    private String formatIndexName(String indexName) {
+    public String formatIndexName(String indexName) {
         if (StringUtils.isNotEmpty(namespace)) {
             return namespace + "_" + indexName;
         }

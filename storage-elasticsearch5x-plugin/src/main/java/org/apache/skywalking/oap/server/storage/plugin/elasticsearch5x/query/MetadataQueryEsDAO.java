@@ -194,25 +194,33 @@ public class MetadataQueryEsDAO extends EsDAO implements IMetadataQueryDAO {
             ServiceInstance serviceInstance = new ServiceInstance();
             serviceInstance.setId(String.valueOf(sourceAsMap.get(ServiceInstanceInventory.SEQUENCE)));
             serviceInstance.setName((String) sourceAsMap.get(ServiceInstanceInventory.NAME));
-            String languageId = ((String) sourceAsMap.get(ServiceInstanceInventory.PropertyUtil.LANGUAGE));
-            if(!Strings.isNullOrEmpty(languageId)) {
-                serviceInstance.setLanguage(LanguageTrans.INSTANCE.value(languageId));
+
+            String propertiesString = (String)sourceAsMap.get(ServiceInstanceInventory.PROPERTIES);
+            if (!Strings.isNullOrEmpty(propertiesString)) {
+                JsonObject properties = GSON.fromJson(propertiesString, JsonObject.class);
+                if (properties.has(LANGUAGE)) {
+                    serviceInstance.setLanguage(LanguageTrans.INSTANCE.value(properties.get(LANGUAGE).getAsString()));
+                }else {
+                    serviceInstance.setLanguage(Language.UNKNOWN);
+                }
+
+                if (properties.has(OS_NAME)) {
+                    serviceInstance.getAttributes().add(new Attribute(OS_NAME, properties.get(OS_NAME).getAsString()));
+                }
+                if (properties.has(HOST_NAME)) {
+                    serviceInstance.getAttributes().add(new Attribute(HOST_NAME, properties.get(HOST_NAME).getAsString()));
+                }
+                if (properties.has(PROCESS_NO)) {
+                    serviceInstance.getAttributes().add(new Attribute(PROCESS_NO, properties.get(PROCESS_NO).getAsString()));
+                }
+                if (properties.has(IPV4S)) {
+                    List<String> ipv4s = ServiceInstanceInventory.PropertyUtil.ipv4sDeserialize(properties.get(IPV4S).getAsString());
+                    for (String ipv4 : ipv4s) {
+                        serviceInstance.getAttributes().add(new Attribute(ServiceInstanceInventory.PropertyUtil.IPV4S, ipv4));
+                    }
+                }
             }else {
                 serviceInstance.setLanguage(Language.UNKNOWN);
-            }
-            String osName = (String) sourceAsMap.get(ServiceInstanceInventory.PropertyUtil.OS_NAME);
-            if (!Strings.isNullOrEmpty(osName)) {
-                serviceInstance.getAttributes().add(new Attribute(ServiceInstanceInventory.PropertyUtil.OS_NAME, osName));
-            }
-            String hostName = (String) sourceAsMap.get(ServiceInstanceInventory.PropertyUtil.HOST_NAME);
-            if (!Strings.isNullOrEmpty(hostName)) {
-                serviceInstance.getAttributes().add(new Attribute(ServiceInstanceInventory.PropertyUtil.HOST_NAME, hostName));
-            }
-            serviceInstance.getAttributes().add(new Attribute(ServiceInstanceInventory.PropertyUtil.PROCESS_NO, String.valueOf(((Number) sourceAsMap.get(ServiceInstanceInventory.PropertyUtil.PROCESS_NO)).intValue())));
-
-            List<String> ipv4s = ServiceInstanceInventory.PropertyUtil.ipv4sDeserialize((String) sourceAsMap.get(ServiceInstanceInventory.PropertyUtil.IPV4S));
-            for (String ipv4 : ipv4s) {
-                serviceInstance.getAttributes().add(new Attribute(ServiceInstanceInventory.PropertyUtil.IPV4S, ipv4));
             }
             serviceInstances.add(serviceInstance);
         }

@@ -18,15 +18,21 @@
 
 package org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.base;
 
-import java.io.IOException;
 import org.apache.skywalking.oap.server.core.storage.StorageException;
-import org.apache.skywalking.oap.server.core.storage.model.*;
+import org.apache.skywalking.oap.server.core.storage.model.Model;
+import org.apache.skywalking.oap.server.core.storage.model.ModelColumn;
+import org.apache.skywalking.oap.server.core.storage.model.ModelInstaller;
 import org.apache.skywalking.oap.server.library.client.Client;
-import org.apache.skywalking.oap.server.library.module.ModuleManager;
 import org.apache.skywalking.oap.server.storage.plugin.elasticsearch5x.client.ElasticSearchClient5x;
+import org.apache.skywalking.oap.server.library.module.ModuleManager;
+import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.xcontent.*;
-import org.slf4j.*;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 /**
  * @author peng-yongsheng
@@ -80,9 +86,9 @@ public class StorageEsInstaller extends ModelInstaller {
         Settings settings = createSettingBuilder();
         try {
             mappingBuilder = createMappingBuilder(tableDefine);
-            logger.info("index {}'s mapping builder str: {}", tableDefine.getName(), mappingBuilder.prettyPrint());
+            logger.info("index {}'s mapping builder str: {}", esClient.formatIndexName(tableDefine.getName()), mappingBuilder.prettyPrint());
         } catch (Exception e) {
-            logger.error("create {} index mapping builder error, error message: {}", tableDefine.getName(), e.getMessage());
+            logger.error("create {} index mapping builder error, error message: {}", esClient.formatIndexName(tableDefine.getName()), e.getMessage());
         }
 
         boolean isAcknowledged;
@@ -91,54 +97,54 @@ public class StorageEsInstaller extends ModelInstaller {
         } catch (IOException e) {
             throw new StorageException(e.getMessage());
         }
-        logger.info("create {} index finished, isAcknowledged: {}", tableDefine.getName(), isAcknowledged);
+        logger.info("create {} index finished, isAcknowledged: {}", esClient.formatIndexName(tableDefine.getName()), isAcknowledged);
 
         if (!isAcknowledged) {
-            throw new StorageException("create " + tableDefine.getName() + " index failure, ");
+            throw new StorageException("create " + esClient.formatIndexName(tableDefine.getName()) + " index failure, ");
         }
     }
 
     private Settings createSettingBuilder() {
         return Settings.builder()
-            .put("index.number_of_shards", indexShardsNumber)
-            .put("index.number_of_replicas", indexReplicasNumber)
-            .put("index.refresh_interval", "3s")
-            .put("analysis.analyzer.oap_analyzer.type", "stop")
-            .build();
+                .put("index.number_of_shards", indexShardsNumber)
+                .put("index.number_of_replicas", indexReplicasNumber)
+                .put("index.refresh_interval", "3s")
+                .put("analysis.analyzer.oap_analyzer.type", "stop")
+                .build();
     }
 
     private XContentBuilder createMappingBuilder(Model tableDefine) throws IOException {
         XContentBuilder mappingBuilder = XContentFactory.jsonBuilder()
-            .startObject()
-            .startObject("_all")
-            .field("enabled", false)
-            .endObject()
-            .startObject("properties");
+                .startObject()
+                .startObject("_all")
+                .field("enabled", false)
+                .endObject()
+                .startObject("properties");
 
         for (ModelColumn columnDefine : tableDefine.getColumns()) {
             if (columnDefine.isMatchQuery()) {
                 String matchCName = MatchCNameBuilder.INSTANCE.build(columnDefine.getColumnName().getName());
 
                 mappingBuilder
-                    .startObject(columnDefine.getColumnName().getName())
-                    .field("type", mapping.transform(columnDefine.getType()))
-                    .field("copy_to", matchCName)
-                    .endObject()
-                    .startObject(matchCName)
-                    .field("type", "text")
-                    .field("analyzer", "oap_analyzer")
-                    .endObject();
+                        .startObject(columnDefine.getColumnName().getName())
+                        .field("type", mapping.transform(columnDefine.getType()))
+                        .field("copy_to", matchCName)
+                        .endObject()
+                        .startObject(matchCName)
+                        .field("type", "text")
+                        .field("analyzer", "oap_analyzer")
+                        .endObject();
             } else {
                 mappingBuilder
-                    .startObject(columnDefine.getColumnName().getName())
-                    .field("type", mapping.transform(columnDefine.getType()))
-                    .endObject();
+                        .startObject(columnDefine.getColumnName().getName())
+                        .field("type", mapping.transform(columnDefine.getType()))
+                        .endObject();
             }
         }
 
         mappingBuilder
-            .endObject()
-            .endObject();
+                .endObject()
+                .endObject();
 
         logger.debug("create elasticsearch index: {}", mappingBuilder.prettyPrint());
 

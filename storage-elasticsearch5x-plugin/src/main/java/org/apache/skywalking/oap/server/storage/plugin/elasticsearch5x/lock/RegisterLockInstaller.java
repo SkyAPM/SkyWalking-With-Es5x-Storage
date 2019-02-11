@@ -70,25 +70,25 @@ public class RegisterLockInstaller {
 
     private void createIndex() throws IOException {
         Settings settings = Settings.builder()
-            .put("index.number_of_shards", 1)
-            .put("index.number_of_replicas", 0)
-            .put("index.refresh_interval", "1s")
-            .build();
+                .put("index.number_of_shards", 1)
+                .put("index.number_of_replicas", 0)
+                .put("index.refresh_interval", "1s")
+                .build();
 
         XContentBuilder source = XContentFactory.jsonBuilder()
-            .startObject()
-            .startObject("properties")
-            .startObject(RegisterLockIndex.COLUMN_EXPIRE)
-            .field("type", "long")
-            .endObject()
-            .startObject(RegisterLockIndex.COLUMN_LOCKABLE)
-            .field("type", "boolean")
-            .endObject()
-            .startObject(RegisterLockIndex.COLUMN_SEQUENCE)
-            .field("type", "integer")
-            .endObject()
-            .endObject()
-            .endObject();
+                .startObject()
+                .startObject("properties")
+                .startObject(RegisterLockIndex.COLUMN_EXPIRE)
+                .field("type", "long")
+                .endObject()
+                .startObject(RegisterLockIndex.COLUMN_LOCKABLE)
+                .field("type", "boolean")
+                .endObject()
+                .startObject(RegisterLockIndex.COLUMN_SEQUENCE)
+                .field("type", "integer")
+                .endObject()
+                .endObject()
+                .endObject();
 
         client.createIndex(RegisterLockIndex.NAME, settings, source);
     }
